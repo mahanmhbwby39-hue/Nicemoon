@@ -1,0 +1,69 @@
+/* ====== RESET ====== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ====== BACKGROUND IMAGE (BLUR LAYER) ====== */
+body {
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* لایه بک‌گراند */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background-image: url("YOUR-IMAGE-LINK-HERE");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  filter: blur(12px);
+  transform: scale(1.1); /* جلوگیری از لبه‌های سفید */
+  z-index: -2;
+}
+
+/* لایه تیره + رمانتیک */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.35); /* تیره ملایم */
+  z-index: -1;
+}
+
+/* ====== CONTENT BOX ====== */
+.container {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  padding: 20px;
+}
+
+/* عنوان عاشقانه */
+h1 {
+  font-size: 40px;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+}
+
+/* متن */
+p {
+  font-size: 18px;
+  margin-top: 10px;
+  opacity: 0.9;
+}
