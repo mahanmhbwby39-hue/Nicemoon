@@ -1,46 +1,84 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>NiceMoon</title>
+<meta charset="UTF-8">
+<title>NiceMoon</title>
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+<style>
+body{
+    margin:0;
+    height:100vh;
+    overflow:hidden;
+    font-family:sans-serif;
 
-      background: url("https://images.unsplash.com/photo-1519681393784-d120267933ba") no-repeat center center/cover;
-      font-family: sans-serif;
-      color: white;
-    }
+    background:url("https://i.ibb.co/ynHWBxJ1/37885c25-930b-4c57-886c-8a65172ae807.png")
+    no-repeat center center;
+    background-size:cover;
 
-    .box {
-      background: rgba(0,0,0,0.4);
-      padding: 25px 40px;
-      border-radius: 20px;
-      backdrop-filter: blur(8px);
-      text-align: center;
-    }
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
 
-    h1 {
-      margin: 0;
-    }
+.container{
+    width:90%;
+    max-width:1200px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:120px;
+}
 
-    p {
-      margin-top: 10px;
-    }
-  </style>
+.card{
+    height:170px;
+    border-radius:25px;
+
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+
+    border:1px solid rgba(255,255,255,0.2);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    color:white;
+    font-size:22px;
+    text-align:center;
+
+    box-shadow:0 0 25px rgba(0,0,0,0.35);
+    padding:20px;
+}
+
+.card:hover{
+    transform:scale(1.03);
+    transition:0.3s;
+}
+</style>
 
 </head>
 
 <body>
 
-  <div class="box">
-    <h1>🌙 NiceMoon</h1>
-    <p>Just a simple love page</p>
-  </div>
+<div class="container">
+
+    <div class="card">
+        Every night becomes beautiful when I think of you ❤️
+    </div>
+
+    <div class="card">
+        You are the moon that lights my darkest skies 🌙
+    </div>
+
+    <div class="card">
+        My favorite place is wherever you are ✨
+    </div>
+
+    <div class="card">
+        In every universe, I would choose you again 💖
+    </div>
+
+</div>
 
 </body>
 </html>
