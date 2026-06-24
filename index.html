@@ -6,7 +6,7 @@
 
 <title>NiceMoon 🌙</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;400;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -17,86 +17,124 @@
 }
 
 body{
-    width:100vw;
-    height:100vh;
-    overflow:hidden;
-
     font-family:'Vazirmatn',sans-serif;
     direction:rtl;
 
+    min-height:100vh;
+    overflow:hidden;
+
     background:url("https://i.ibb.co/ynHWBxJ1/37885c25-930b-4c57-886c-8a65172ae807.png")
-    center center/cover no-repeat fixed;
+    center/cover no-repeat fixed;
+
+    position:relative;
 }
 
-.now-playing{
+/* TITLE */
+.title{
     position:fixed;
     top:15px;
     left:50%;
     transform:translateX(-50%);
-    background:rgba(0,0,0,0.45);
-    backdrop-filter:blur(10px);
+
     color:white;
+    background:rgba(0,0,0,0.4);
+    backdrop-filter:blur(10px);
+
     padding:10px 20px;
     border-radius:999px;
-    z-index:9999;
+
     font-size:14px;
+    z-index:999;
 }
 
+/* LAYOUT */
+.container{
+    position:relative;
+    width:100%;
+    height:100vh;
+}
+
+/* MUSIC CARDS */
 .card{
     position:absolute;
-    width:240px;
+    width:230px;
 
     background:rgba(255,255,255,0.12);
     backdrop-filter:blur(16px);
 
     border:1px solid rgba(255,255,255,0.15);
-    border-radius:20px;
+    border-radius:18px;
 
     padding:12px;
-    text-align:center;
-
     color:white;
 
-    box-shadow:0 10px 30px rgba(0,0,0,0.35);
-}
-
-.card.playing{
-    box-shadow:0 0 25px rgba(180,120,255,0.8);
+    box-shadow:0 8px 25px rgba(0,0,0,0.35);
 }
 
 .cover{
-    width:110px;
-    height:110px;
+    width:90px;
+    height:90px;
     border-radius:50%;
     object-fit:cover;
     display:block;
     margin:auto;
 }
 
-.cover.playing{
-    animation:spin 8s linear infinite;
-}
-
-@keyframes spin{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
-}
-
 .song-title{
-    margin-top:10px;
-    font-size:18px;
+    margin-top:8px;
+    font-size:15px;
     font-weight:700;
+    text-align:center;
 }
 
 .artist{
-    margin-top:5px;
-    font-size:12px;
+    font-size:11px;
     opacity:0.7;
+    text-align:center;
+    margin-bottom:8px;
 }
 
 audio{
     width:100%;
-    margin-top:10px;
+}
+
+/* ZIGZAG POSITIONS */
+.c1{top:80px; right:20px;}
+.c2{top:220px; left:20px;}
+.c3{top:360px; right:20px;}
+.c4{top:500px; left:20px;}
+
+/* BACKGROUND STARS */
+.star{
+    position:absolute;
+    width:3px;
+    height:3px;
+    background:white;
+    border-radius:50%;
+    opacity:0.7;
+    animation:blink 2s infinite alternate;
+}
+
+@keyframes blink{
+    from{opacity:0.2; transform:scale(1);}
+    to{opacity:1; transform:scale(1.6);}
+}
+
+/* MOON */
+.moon{
+    position:absolute;
+    top:60px;
+    left:60px;
+
+    width:80px;
+    height:80px;
+
+    background:radial-gradient(circle,#fff,#cfcfcf,#999);
+    border-radius:50%;
+
+    box-shadow:0 0 30px rgba(255,255,255,0.4);
+
+    opacity:0.8;
 }
 
 </style>
@@ -104,131 +142,59 @@ audio{
 
 <body>
 
-<div class="now-playing">❤️ For My Moon ❤️</div>
+<div class="title">❤️ For My Moon ❤️</div>
 
-<!-- CARDS -->
-<div class="card">
-    <img class="cover" src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=600">
-    <div class="song-title">یاد من عشقو بیار</div>
-    <div class="artist">Song 1</div>
-    <audio controls><source src="song1.mp3"></audio>
+<div class="moon"></div>
+
+<div class="container">
+
+    <!-- CARD 1 -->
+    <div class="card c1">
+        <img class="cover" src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=300">
+        <div class="song-title">یاد من عشقو بیار</div>
+        <div class="artist">Song 1</div>
+        <audio controls src="song1.mp3"></audio>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="card c2">
+        <img class="cover" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=300">
+        <div class="song-title">رنگ تنت رنگ مسی</div>
+        <div class="artist">Song 2</div>
+        <audio controls src="song2.mp3"></audio>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="card c3">
+        <img class="cover" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300">
+        <div class="song-title">ای خالق هر قصه من</div>
+        <div class="artist">Song 3</div>
+        <audio controls src="song3.mp3"></audio>
+    </div>
+
+    <!-- CARD 4 -->
+    <div class="card c4">
+        <img class="cover" src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=300">
+        <div class="song-title">میترسم که بفهمم</div>
+        <div class="artist">Song 4</div>
+        <audio controls src="song4.mp3"></audio>
+    </div>
+
 </div>
 
-<div class="card">
-    <img class="cover" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600">
-    <div class="song-title">رنگ تنت رنگ مسی</div>
-    <div class="artist">Song 2</div>
-    <audio controls><source src="song2.mp3"></audio>
-</div>
-
-<div class="card">
-    <img class="cover" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600">
-    <div class="song-title">ای خالق هر قصه من</div>
-    <div class="artist">Song 3</div>
-    <audio controls><source src="song3.mp3"></audio>
-</div>
-
-<div class="card">
-    <img class="cover" src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600">
-    <div class="song-title">میترسم که بفهمم</div>
-    <div class="artist">Song 4</div>
-    <audio controls><source src="song4.mp3"></audio>
-</div>
-
+<!-- STARS -->
 <script>
+for(let i=0;i<35;i++){
+    let s=document.createElement("div");
+    s.className="star";
 
-const cards = document.querySelectorAll(".card");
-const audios = document.querySelectorAll("audio");
+    s.style.top=Math.random()*100+"vh";
+    s.style.left=Math.random()*100+"vw";
 
-const state = [];
+    s.style.animationDuration=(Math.random()*2+1)+"s";
 
-function random(min,max){
-    return Math.random()*(max-min)+min;
+    document.body.appendChild(s);
 }
-
-// init positions
-cards.forEach((card,i)=>{
-
-    state[i] = {
-        x: random(50, window.innerWidth-300),
-        y: random(80, window.innerHeight-300),
-        dx: random(0.3,0.7)*(Math.random()>0.5?1:-1),
-        dy: random(0.3,0.7)*(Math.random()>0.5?1:-1)
-    };
-
-    card.style.left = state[i].x + "px";
-    card.style.top = state[i].y + "px";
-});
-
-function loop(){
-
-    cards.forEach((card,i)=>{
-
-        state[i].x += state[i].dx;
-        state[i].y += state[i].dy;
-
-        const w = card.offsetWidth;
-        const h = card.offsetHeight;
-
-        if(state[i].x <= 0 || state[i].x + w >= window.innerWidth){
-            state[i].dx *= -1;
-        }
-
-        if(state[i].y <= 60 || state[i].y + h >= window.innerHeight){
-            state[i].dy *= -1;
-        }
-
-        card.style.left = state[i].x + "px";
-        card.style.top = state[i].y + "px";
-    });
-
-    // collision
-    for(let i=0;i<cards.length;i++){
-        for(let j=i+1;j<cards.length;j++){
-
-            const a = cards[i].getBoundingClientRect();
-            const b = cards[j].getBoundingClientRect();
-
-            if(
-                a.left < b.right &&
-                a.right > b.left &&
-                a.top < b.bottom &&
-                a.bottom > b.top
-            ){
-                [state[i].dx, state[j].dx] = [state[j].dx, state[i].dx];
-                [state[i].dy, state[j].dy] = [state[j].dy, state[i].dy];
-            }
-        }
-    }
-
-    requestAnimationFrame(loop);
-}
-
-loop();
-
-// فقط یک موزیک همزمان
-audios.forEach(audio=>{
-
-    audio.addEventListener("play",()=>{
-
-        audios.forEach(a=>{
-            if(a!==audio) a.pause();
-        });
-
-        document.querySelectorAll(".cover").forEach(c=>{
-            c.classList.remove("playing");
-        });
-
-        document.querySelectorAll(".card").forEach(c=>{
-            c.classList.remove("playing");
-        });
-
-        audio.parentElement.querySelector(".cover").classList.add("playing");
-        audio.parentElement.classList.add("playing");
-    });
-
-});
-
 </script>
 
 </body>
