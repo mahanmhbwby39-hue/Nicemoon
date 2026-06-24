@@ -75,6 +75,12 @@ body{
     height:65px;
     border-radius:50%;
     object-fit:cover;
+    background:#222;
+}
+
+/* اگر عکس لود نشد */
+.cover:not([src]){
+    display:none;
 }
 
 .cover.playing{
@@ -176,7 +182,7 @@ body{
 
     <div class="row right">
         <div class="card">
-            <img class="cover" src="cover1.png">
+            <img class="cover" src="Cover1.png" onerror="this.src='https://via.placeholder.com/150'">
             <div class="text">
                 <div class="song-title">یاد من عشقو بیار</div>
                 <div class="artist">Song 1</div>
@@ -191,7 +197,7 @@ body{
 
     <div class="row left">
         <div class="card">
-            <img class="cover" src="cover2.png">
+            <img class="cover" src="Cover2.png" onerror="this.src='https://via.placeholder.com/150'">
             <div class="text">
                 <div class="song-title">رنگ تنت رنگ مسی</div>
                 <div class="artist">Song 2</div>
@@ -206,7 +212,7 @@ body{
 
     <div class="row right">
         <div class="card">
-            <img class="cover" src="cover3.png">
+            <img class="cover" src="Cover3.png" onerror="this.src='https://via.placeholder.com/150'">
             <div class="text">
                 <div class="song-title">ای خالق هر قصه من</div>
                 <div class="artist">Song 3</div>
@@ -221,7 +227,7 @@ body{
 
     <div class="row left">
         <div class="card">
-            <img class="cover" src="cover4.png">
+            <img class="cover" src="Cover4.png" onerror="this.src='https://via.placeholder.com/150'">
             <div class="text">
                 <div class="song-title">میترسم که بفهمم</div>
                 <div class="artist">Song 4</div>
