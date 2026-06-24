@@ -10,8 +10,6 @@
 
 <style>
 
-/* ================= ORIGINAL STYLE (UNCHANGED) ================= */
-
 *{
     margin:0;
     padding:0;
@@ -38,10 +36,12 @@ body{
     padding:40px 20px;
 }
 
+/* ROW */
 .row{width:100%;display:flex;}
 .row.right{justify-content:flex-end;}
 .row.left{justify-content:flex-start;}
 
+/* CARD */
 .card{
     width:270px;
     background:rgba(255,255,255,0.10);
@@ -55,6 +55,7 @@ body{
     padding:10px;
     box-shadow:0 8px 25px rgba(0,0,0,0.35);
     transition:0.3s;
+
     animation: float 6s ease-in-out infinite;
 }
 
@@ -68,6 +69,11 @@ body{
     100%{transform:translateY(0px);}
 }
 
+.card.playing{
+    box-shadow:0 0 25px rgba(255,80,120,0.8);
+}
+
+/* COVER */
 .cover{
     width:65px;
     height:65px;
@@ -75,11 +81,29 @@ body{
     object-fit:cover;
 }
 
+.cover.playing{
+    animation:spin 6s linear infinite;
+}
+
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+/* TEXT */
 .text{flex:1;}
 
-.song-title{font-size:15px;font-weight:700;}
-.artist{font-size:11px;opacity:0.7;}
+.song-title{
+    font-size:15px;
+    font-weight:700;
+}
 
+.artist{
+    font-size:11px;
+    opacity:0.7;
+}
+
+/* CONTROLS */
 .controls{
     margin-top:6px;
     display:flex;
@@ -87,6 +111,7 @@ body{
     gap:8px;
 }
 
+/* PROGRESS */
 .progress{
     flex:1;
     height:4px;
@@ -101,6 +126,37 @@ body{
     background:linear-gradient(90deg,#ff4d6d,#ffd166);
 }
 
+/* VISUALIZER */
+.visualizer{
+    display:flex;
+    gap:2px;
+    align-items:flex-end;
+    height:14px;
+}
+
+.visualizer span{
+    width:2px;
+    height:4px;
+    background:white;
+    opacity:0.4;
+    animation:beat 0.8s infinite ease-in-out;
+}
+
+.visualizer span:nth-child(2){animation-delay:0.1s;}
+.visualizer span:nth-child(3){animation-delay:0.2s;}
+.visualizer span:nth-child(4){animation-delay:0.3s;}
+
+@keyframes beat{
+    0%,100%{height:3px; opacity:0.3;}
+    50%{height:14px; opacity:1;}
+}
+
+.card.playing .visualizer span{
+    background:#ff4d6d;
+    opacity:1;
+}
+
+/* PLAY BUTTON */
 .play-btn{
     width:32px;
     height:32px;
@@ -110,62 +166,14 @@ body{
     background:rgba(255,255,255,0.2);
     color:white;
     font-size:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     transition:0.2s;
 }
 
 .play-btn:hover{
     background:rgba(255,255,255,0.35);
-}
-
-/* ================= MODAL (READY FOR STEP 2) ================= */
-
-.player-modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.65);
-    backdrop-filter:blur(15px);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    transform:scale(0);
-    opacity:0;
-    transition:0.4s;
-    z-index:999;
-}
-
-.player-modal.active{
-    transform:scale(1);
-    opacity:1;
-}
-
-.player-box{
-    width:340px;
-    height:420px;
-    border-radius:25px;
-    background:rgba(255,255,255,0.08);
-    border:1px solid rgba(255,255,255,0.2);
-    box-shadow:0 0 40px rgba(255,80,120,0.4);
-    position:relative;
-    overflow:hidden;
-
-    transform:rotateX(25deg) scale(0.8);
-    transition:0.5s;
-}
-
-.player-modal.active .player-box{
-    transform:rotateX(0) scale(1);
-}
-
-#closePlayer{
-    position:absolute;
-    top:10px;
-    right:10px;
-    background:none;
-    border:none;
-    color:white;
-    font-size:18px;
-    cursor:pointer;
 }
 
 </style>
@@ -175,7 +183,6 @@ body{
 
 <div class="container">
 
-    <!-- ===== SONG 1 ===== -->
     <div class="row right">
         <div class="card">
             <img class="cover" src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=300">
@@ -186,19 +193,13 @@ body{
 
                 <div class="controls">
                     <div class="progress"><div class="bar"></div></div>
-
-                    <button class="play-btn"
-                        data-src="song1.mp3"
-                        data-title="یاد من عشقو بیار"
-                        data-cover="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=300">
-                        ▶
-                    </button>
+                    <div class="visualizer"><span></span><span></span><span></span><span></span></div>
+                    <button class="play-btn" data-src="song1.mp3">▶</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ===== SONG 2 ===== -->
     <div class="row left">
         <div class="card">
             <img class="cover" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=300">
@@ -209,19 +210,13 @@ body{
 
                 <div class="controls">
                     <div class="progress"><div class="bar"></div></div>
-
-                    <button class="play-btn"
-                        data-src="song2.mp3"
-                        data-title="رنگ تنت رنگ مسی"
-                        data-cover="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=300">
-                        ▶
-                    </button>
+                    <div class="visualizer"><span></span><span></span><span></span><span></span></div>
+                    <button class="play-btn" data-src="song2.mp3">▶</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ===== SONG 3 ===== -->
     <div class="row right">
         <div class="card">
             <img class="cover" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300">
@@ -232,19 +227,13 @@ body{
 
                 <div class="controls">
                     <div class="progress"><div class="bar"></div></div>
-
-                    <button class="play-btn"
-                        data-src="song3.mp3"
-                        data-title="ای خالق هر قصه من"
-                        data-cover="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300">
-                        ▶
-                    </button>
+                    <div class="visualizer"><span></span><span></span><span></span><span></span></div>
+                    <button class="play-btn" data-src="song3.mp3">▶</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ===== SONG 4 (FIXED) ===== -->
     <div class="row left">
         <div class="card">
             <img class="cover" src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=300">
@@ -255,13 +244,8 @@ body{
 
                 <div class="controls">
                     <div class="progress"><div class="bar"></div></div>
-
-                    <button class="play-btn"
-                        data-src="song4.mp3"
-                        data-title="میترسم که بفهمم"
-                        data-cover="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=300">
-                        ▶
-                    </button>
+                    <div class="visualizer"><span></span><span></span><span></span><span></span></div>
+                    <button class="play-btn" data-src="song4.mp3">▶</button>
                 </div>
             </div>
         </div>
@@ -269,55 +253,74 @@ body{
 
 </div>
 
-<!-- ===== PLAYER MODAL (STEP 2 READY) ===== -->
-<div id="playerModal" class="player-modal">
-    <div class="player-box">
-        <button id="closePlayer">✖</button>
-    </div>
-</div>
-
 <script>
 
-/* ================= STEP 1 LOGIC ONLY ================= */
-
-const modal = document.getElementById("playerModal");
-const closeBtn = document.getElementById("closePlayer");
-const buttons = document.querySelectorAll(".play-btn");
-
 let currentAudio = null;
+let currentBtn = null;
 
-buttons.forEach(btn => {
+const ICON_PLAY = "▶";
+const ICON_PAUSE = "❚❚";
+
+document.querySelectorAll(".play-btn").forEach(btn => {
 
     btn.addEventListener("click", () => {
 
         const src = btn.dataset.src;
-        const title = btn.dataset.title;
-        const cover = btn.dataset.cover;
+        const card = btn.closest(".card");
+        const bar = card.querySelector(".bar");
+        const cover = card.querySelector(".cover");
 
-        // open modal with 3D effect
-        modal.classList.add("active");
-
-        // stop previous audio if exists
-        if(currentAudio){
-            currentAudio.pause();
+        // toggle same song
+        if (currentAudio && currentBtn === btn) {
+            if (!currentAudio.paused) {
+                currentAudio.pause();
+                btn.textContent = ICON_PLAY;
+                card.classList.remove("playing");
+                cover.classList.remove("playing");
+                return;
+            } else {
+                currentAudio.play();
+                btn.textContent = ICON_PAUSE;
+                card.classList.add("playing");
+                cover.classList.add("playing");
+                return;
+            }
         }
 
-        // create new audio
+        // stop previous
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            if (currentBtn) currentBtn.textContent = ICON_PLAY;
+        }
+
+        // new audio
         currentAudio = new Audio(src);
+        currentBtn = btn;
         currentAudio.play();
 
-        console.log("Now Playing:", title);
+        document.querySelectorAll(".card").forEach(c => c.classList.remove("playing"));
+        document.querySelectorAll(".cover").forEach(c => c.classList.remove("playing"));
+
+        card.classList.add("playing");
+        cover.classList.add("playing");
+        btn.textContent = ICON_PAUSE;
+
+        currentAudio.ontimeupdate = () => {
+            if (!currentAudio.duration) return;
+            let percent = (currentAudio.currentTime / currentAudio.duration) * 100;
+            bar.style.width = percent + "%";
+        };
+
+        currentAudio.onended = () => {
+            btn.textContent = ICON_PLAY;
+            card.classList.remove("playing");
+            cover.classList.remove("playing");
+            bar.style.width = "0%";
+        };
 
     });
 
-});
-
-closeBtn.addEventListener("click", () => {
-    modal.classList.remove("active");
-
-    if(currentAudio){
-        currentAudio.pause();
-    }
 });
 
 </script>
