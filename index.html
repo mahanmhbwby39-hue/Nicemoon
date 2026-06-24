@@ -36,6 +36,11 @@ body{
     padding:40px 20px;
 }
 
+/* ROW */
+.row{width:100%;display:flex;}
+.row.right{justify-content:flex-end;}
+.row.left{justify-content:flex-start;}
+
 /* CARD */
 .card{
     width:270px;
@@ -50,16 +55,23 @@ body{
     padding:10px;
     box-shadow:0 8px 25px rgba(0,0,0,0.35);
     transition:0.3s;
+
+    animation: float 6s ease-in-out infinite;
+}
+
+.row:nth-child(even) .card{
+    animation-delay:2s;
+}
+
+@keyframes float{
+    0%{transform:translateY(0px);}
+    50%{transform:translateY(-6px);}
+    100%{transform:translateY(0px);}
 }
 
 .card.playing{
     box-shadow:0 0 25px rgba(255,80,120,0.8);
 }
-
-/* ZIGZAG */
-.row{width:100%;display:flex;}
-.row.right{justify-content:flex-end;}
-.row.left{justify-content:flex-start;}
 
 /* COVER */
 .cover{
@@ -146,14 +158,22 @@ body{
 
 /* PLAY BUTTON */
 .play-btn{
-    width:28px;
-    height:28px;
+    width:32px;
+    height:32px;
     border-radius:50%;
     border:none;
     cursor:pointer;
     background:rgba(255,255,255,0.2);
     color:white;
-    font-size:14px;
+    font-size:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:0.2s;
+}
+
+.play-btn:hover{
+    background:rgba(255,255,255,0.35);
 }
 
 </style>
@@ -163,7 +183,6 @@ body{
 
 <div class="container">
 
-    <!-- 1 -->
     <div class="row right">
         <div class="card">
             <img class="cover" src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=300">
@@ -181,7 +200,6 @@ body{
         </div>
     </div>
 
-    <!-- 2 -->
     <div class="row left">
         <div class="card">
             <img class="cover" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=300">
@@ -199,7 +217,6 @@ body{
         </div>
     </div>
 
-    <!-- 3 -->
     <div class="row right">
         <div class="card">
             <img class="cover" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300">
@@ -217,7 +234,6 @@ body{
         </div>
     </div>
 
-    <!-- 4 -->
     <div class="row left">
         <div class="card">
             <img class="cover" src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=300">
@@ -240,39 +256,67 @@ body{
 <script>
 
 let currentAudio = null;
+let currentBtn = null;
 
-document.querySelectorAll(".play-btn").forEach(btn=>{
+const ICON_PLAY = "▶";
+const ICON_PAUSE = "❚❚";
 
-    btn.addEventListener("click",()=>{
+document.querySelectorAll(".play-btn").forEach(btn => {
+
+    btn.addEventListener("click", () => {
 
         const src = btn.dataset.src;
+        const card = btn.closest(".card");
+        const bar = card.querySelector(".bar");
+        const cover = card.querySelector(".cover");
 
-        if(currentAudio){
-            currentAudio.pause();
+        // toggle same song
+        if (currentAudio && currentBtn === btn) {
+            if (!currentAudio.paused) {
+                currentAudio.pause();
+                btn.textContent = ICON_PLAY;
+                card.classList.remove("playing");
+                cover.classList.remove("playing");
+                return;
+            } else {
+                currentAudio.play();
+                btn.textContent = ICON_PAUSE;
+                card.classList.add("playing");
+                cover.classList.add("playing");
+                return;
+            }
         }
 
+        // stop previous
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            if (currentBtn) currentBtn.textContent = ICON_PLAY;
+        }
+
+        // new audio
         currentAudio = new Audio(src);
+        currentBtn = btn;
         currentAudio.play();
 
-        document.querySelectorAll(".card").forEach(c=>{
-            c.classList.remove("playing");
-        });
+        document.querySelectorAll(".card").forEach(c => c.classList.remove("playing"));
+        document.querySelectorAll(".cover").forEach(c => c.classList.remove("playing"));
 
-        const card = btn.closest(".card");
         card.classList.add("playing");
-
-        document.querySelectorAll(".cover").forEach(c=>{
-            c.classList.remove("playing");
-        });
-
-        card.querySelector(".cover").classList.add("playing");
-
-        const bar = card.querySelector(".bar");
+        cover.classList.add("playing");
+        btn.textContent = ICON_PAUSE;
 
         currentAudio.ontimeupdate = () => {
-            if(!currentAudio.duration) return;
+            if (!currentAudio.duration) return;
             let percent = (currentAudio.currentTime / currentAudio.duration) * 100;
             bar.style.width = percent + "%";
+        };
+
+        currentAudio.onended = () => {
+            btn.textContent = ICON_PLAY;
+            card.classList.remove("playing");
+            cover.classList.remove("playing");
+            bar.style.width = "0%";
         };
 
     });
