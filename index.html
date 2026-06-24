@@ -1,116 +1,238 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>NiceMoon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NiceMoon 🌙</title>
 
 <style>
-body{
+
+*{
     margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
     min-height:100vh;
-    overflow:auto;
-    font-family:sans-serif;
+    font-family:Arial, sans-serif;
 
     background:url("https://i.ibb.co/ynHWBxJ1/37885c25-930b-4c57-886c-8a65172ae807.png")
-    no-repeat center center;
-    background-size:cover;
+    center center/cover no-repeat fixed;
 
     display:flex;
     justify-content:center;
     align-items:center;
-    padding:40px 0;
+
+    padding:40px 20px;
 }
 
 .container{
-    width:90%;
+    width:100%;
     max-width:1200px;
+
     display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:40px;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
 }
 
 .card{
-    border-radius:25px;
     background:rgba(255,255,255,0.12);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-    border:1px solid rgba(255,255,255,0.2);
-    box-shadow:0 0 25px rgba(0,0,0,0.35);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+
+    border:1px solid rgba(255,255,255,0.15);
+
+    border-radius:28px;
+
     padding:25px;
-    color:white;
+
     text-align:center;
+
+    color:white;
+
+    box-shadow:0 10px 35px rgba(0,0,0,.35);
+
+    transition:.3s;
 }
 
 .card:hover{
-    transform:scale(1.03);
-    transition:0.3s;
+    transform:translateY(-8px);
 }
 
 .cover{
-    width:170px;
-    height:170px;
-    border-radius:20px;
+    width:190px;
+    height:190px;
+
     object-fit:cover;
-    margin-bottom:15px;
-    box-shadow:0 0 15px rgba(0,0,0,0.4);
+
+    border-radius:50%;
+
+    margin:auto;
+
+    display:block;
+
+    box-shadow:0 0 25px rgba(255,255,255,.25);
+
+    transition:1s linear;
+}
+
+.cover.playing{
+    animation:spin 10s linear infinite;
+}
+
+@keyframes spin{
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
 }
 
 .song-title{
-    font-size:22px;
+    margin-top:20px;
+    font-size:24px;
     font-weight:bold;
-    margin-bottom:15px;
+}
+
+.artist{
+    margin-top:8px;
+    opacity:.8;
+    font-size:14px;
 }
 
 audio{
     width:100%;
+    margin-top:20px;
 }
 
-@media(max-width:800px){
-    .container{
-        grid-template-columns:1fr;
-    }
+.now-playing{
+    position:fixed;
+    top:15px;
+    left:50%;
+    transform:translateX(-50%);
+
+    background:rgba(0,0,0,.45);
+    backdrop-filter:blur(10px);
+
+    color:white;
+
+    padding:12px 25px;
+
+    border-radius:999px;
+
+    font-size:15px;
+
+    z-index:999;
 }
+
 </style>
-
 </head>
 
 <body>
 
+<div class="now-playing">
+🌙 NiceMoon Music Collection
+</div>
+
 <div class="container">
 
-    <div class="card">
-        <img class="cover" src="https://picsum.photos/300?1">
-        <div class="song-title">Perfect</div>
-        <audio controls>
-            <source src="song1.mp3" type="audio/mpeg">
-        </audio>
-    </div>
+<div class="card">
+    <img class="cover"
+    src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=600">
 
-    <div class="card">
-        <img class="cover" src="https://picsum.photos/300?2">
-        <div class="song-title">Until I Found You</div>
-        <audio controls>
-            <source src="song2.mp3" type="audio/mpeg">
-        </audio>
-    </div>
+    <div class="song-title">Perfect</div>
+    <div class="artist">For My Love ❤️</div>
 
-    <div class="card">
-        <img class="cover" src="https://picsum.photos/300?3">
-        <div class="song-title">Photograph</div>
-        <audio controls>
-            <source src="song3.mp3" type="audio/mpeg">
-        </audio>
-    </div>
+    <audio controls>
+        <source src="song1.mp3" type="audio/mpeg">
+    </audio>
+</div>
 
-    <div class="card">
-        <img class="cover" src="https://picsum.photos/300?4">
-        <div class="song-title">A Thousand Years</div>
-        <audio controls>
-            <source src="song4.mp3" type="audio/mpeg">
-        </audio>
-    </div>
+<div class="card">
+    <img class="cover"
+    src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600">
+
+    <div class="song-title">Until I Found You</div>
+    <div class="artist">Forever Together ✨</div>
+
+    <audio controls>
+        <source src="song2.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
+<div class="card">
+    <img class="cover"
+    src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600">
+
+    <div class="song-title">Photograph</div>
+    <div class="artist">Memories 📸</div>
+
+    <audio controls>
+        <source src="song3.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
+<div class="card">
+    <img class="cover"
+    src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600">
+
+    <div class="song-title">A Thousand Years</div>
+    <div class="artist">My Moon 🌙</div>
+
+    <audio controls>
+        <source src="song4.mp3" type="audio/mpeg">
+    </audio>
+</div>
 
 </div>
+
+<script>
+
+const players=document.querySelectorAll("audio");
+
+players.forEach(player=>{
+
+player.addEventListener("play",()=>{
+
+players.forEach(other=>{
+
+if(other!==player){
+other.pause();
+}
+
+});
+
+document.querySelectorAll(".cover").forEach(c=>{
+c.classList.remove("playing");
+});
+
+player.parentElement
+.querySelector(".cover")
+.classList.add("playing");
+
+});
+
+player.addEventListener("pause",()=>{
+
+player.parentElement
+.querySelector(".cover")
+.classList.remove("playing");
+
+});
+
+player.addEventListener("ended",()=>{
+
+player.parentElement
+.querySelector(".cover")
+.classList.remove("playing");
+
+});
+
+});
+
+</script>
 
 </body>
 </html>
