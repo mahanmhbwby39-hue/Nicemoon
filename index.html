@@ -185,7 +185,7 @@ body{
             <img class="cover" src="Cover1.png" onerror="this.src='https://via.placeholder.com/150'">
             <div class="text">
                 <div class="song-title">یاد من عشقو بیار</div>
-                <div class="artist">Song 1</div>
+                <div class="artist">محمد اصفهانی</div>
                 <div class="controls">
                     <div class="progress"><div class="bar"></div></div>
                     <div class="visualizer"><span></span><span></span><span></span><span></span></div>
@@ -200,7 +200,7 @@ body{
             <img class="cover" src="Cover2.png" onerror="this.src='https://via.placeholder.com/150'">
             <div class="text">
                 <div class="song-title">رنگ تنت رنگ مسی</div>
-                <div class="artist">Song 2</div>
+                <div class="artist">وان‌دم</div>
                 <div class="controls">
                     <div class="progress"><div class="bar"></div></div>
                     <div class="visualizer"><span></span><span></span><span></span><span></span></div>
@@ -215,7 +215,7 @@ body{
             <img class="cover" src="Cover3.png" onerror="this.src='https://via.placeholder.com/150'">
             <div class="text">
                 <div class="song-title">ای خالق هر قصه من</div>
-                <div class="artist">Song 3</div>
+                <div class="artist">معین</div>
                 <div class="controls">
                     <div class="progress"><div class="bar"></div></div>
                     <div class="visualizer"><span></span><span></span><span></span><span></span></div>
@@ -230,7 +230,7 @@ body{
             <img class="cover" src="Cover4.png" onerror="this.src='https://via.placeholder.com/150'">
             <div class="text">
                 <div class="song-title">میترسم که بفهمم</div>
-                <div class="artist">Song 4</div>
+                <div class="artist">محسن یگانه</div>
                 <div class="controls">
                     <div class="progress"><div class="bar"></div></div>
                     <div class="visualizer"><span></span><span></span><span></span><span></span></div>
@@ -548,7 +548,8 @@ document.querySelectorAll(".play-btn").forEach(btn => {
 }
 
 </style>
-<!-- ===== FULL SCREEN CONTROL OVERLAY ===== -->
+
+<!-- ===== FULL SCREEN CONTROL + LYRICS ===== -->
 
 <div id="musicOverlay">
     <div class="overlay-player">
@@ -562,8 +563,8 @@ document.querySelectorAll(".play-btn").forEach(btn => {
 
         <h2 id="overlayTitle">Now Playing</h2>
 
-        <div class="overlayHint">
-            Double click any music card to open
+        <div id="lyricsBox">
+            <div id="overlayLyrics"></div>
         </div>
 
     </div>
@@ -577,15 +578,11 @@ document.querySelectorAll(".play-btn").forEach(btn => {
     display:flex;
     justify-content:center;
     align-items:center;
-
     background:rgba(0,0,0,.72);
     backdrop-filter:blur(25px);
-
     z-index:999999;
-
     opacity:0;
     visibility:hidden;
-
     transition:.45s ease;
 }
 
@@ -598,6 +595,7 @@ document.querySelectorAll(".play-btn").forEach(btn => {
     position:relative;
     text-align:center;
     color:#fff;
+    width:min(95%,500px);
 }
 
 #overlayCover{
@@ -605,21 +603,15 @@ document.querySelectorAll(".play-btn").forEach(btn => {
     height:260px;
     border-radius:50%;
     object-fit:cover;
-
     box-shadow:
     0 0 40px rgba(255,255,255,.15),
     0 0 80px rgba(255,120,160,.25);
-
     animation:overlayRotate 18s linear infinite;
 }
 
 @keyframes overlayRotate{
-    from{
-        transform:rotate(0deg);
-    }
-    to{
-        transform:rotate(360deg);
-    }
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
 }
 
 #overlayTitle{
@@ -628,36 +620,51 @@ document.querySelectorAll(".play-btn").forEach(btn => {
     font-weight:700;
 }
 
-.overlayHint{
-    margin-top:10px;
-    opacity:.65;
-    font-size:13px;
+#lyricsBox{
+    margin-top:25px;
+    height:220px;
+    overflow-y:auto;
+
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.15);
+
+    border-radius:20px;
+
+    padding:18px;
+
+    backdrop-filter:blur(10px);
+
+    text-align:center;
+    line-height:2;
+}
+
+#lyricsBox::-webkit-scrollbar{
+    width:6px;
+}
+
+#lyricsBox::-webkit-scrollbar-thumb{
+    background:rgba(255,255,255,.3);
+    border-radius:20px;
+}
+
+#overlayLyrics{
+    white-space:pre-line;
+    font-size:15px;
 }
 
 #closeOverlay{
     position:absolute;
     top:-70px;
     right:-20px;
-
     width:46px;
     height:46px;
-
     border:none;
     border-radius:50%;
-
     cursor:pointer;
-
     color:white;
     font-size:18px;
-
     background:rgba(255,255,255,.12);
     backdrop-filter:blur(10px);
-
-    transition:.25s;
-}
-
-#closeOverlay:hover{
-    transform:scale(1.1);
 }
 
 .ring{
@@ -684,33 +691,133 @@ document.querySelectorAll(".play-btn").forEach(btn => {
 }
 
 @keyframes ringPulse{
-
     0%{
-        transform:translate(-50%,-50%) scale(0.9);
+        transform:translate(-50%,-50%) scale(.9);
         opacity:0;
     }
-
     30%{
         opacity:.8;
     }
-
     100%{
         transform:translate(-50%,-50%) scale(1.25);
         opacity:0;
     }
-
 }
 
 </style>
 
 <script>
 
+const lyrics1 = `
+هوامو نداشتی هوایی شدم! 
+چه کابوس بی انتهایی شدم! 
+نگاهت منو زیر و رو میکنه…! منو با دلم روبرو میکنه.. 
+من و دست بسته… تو و قلب خسته 
+که هرکی رسیده یه جاشو شکسته 
+ولی حسن عاشق به دیوونگیشه! 
+یه وقتایی کوهم دلش ابری میشه…
+ابری شو خاطره هاتو ببار! 
+بارون شو یاد من عشقو بیار… 
+من میرسم به تو آخر کار… 
+بارون ببار! من بی قرار توام بی قرار 
+بیرون بیارم از این انتظار…
+عاشق شدم مث ابر بهار! بارون ببار! 
+پریشونم اما پریشونترم کن! 
+فقط از تو میخوام یه کم باورم کن… 
+هوام از نفسهات داره جون میگیره
+نفس میکشم تا خیالت نمیره
+ابری شو خاطره هاتو ببار! 
+بارون شو یاد من عشقو بیار… 
+من میرسم به تو آخر کار… 
+بارون ببار! من بیقرار توام بیقرار 
+بیرون بیارم از این انتظار…
+عاشق شدم مث ابر بهار! بارون ببار!
+`;
+
+const lyrics2 = `
+رﻧﮓ ﺗﻨﺖ رﻧﮓ ﻣﺴﻰ ﻧﻪ رﻧﮓ ﭘﻮﺳﺖ ﻫﺮﻛﺴﻰ ﺑﻮی ﺗﻨﺖ ﺑﻮی ﮔﻞ ﺑﻮی ﮔﻠﺎی اﻃﻠﺴﻰ
+ﻛﻪ ﺑﻬﺘﺮﻳﻦ ﻛﺴﻰ ﺗﻮ از ﻛﺪوم راه ﻣﻰ رﺳﻰ وﻗﺘﻰ ﻣﻴﺎی ﻛﻪ دﻳﺮ ﺷﺪه
+
+ﻧﻤﻮﻧﺪه در ﻣﻦ ﻧﻔﺴﻰ ﺑﻴﺎ ﻛﻪ وﻗﺘﺶ رﺳﻴﺪه ﭼﺸﻤﺎم ﺑﻪ راﻫﺖ ﺧﺸﻜﻴﺪه
+ﺻﺒﺮ ﻫﺰار ﺳﺎﻟﻢ دﻳﮕﻪ ﺑﻪ اﺧﺮ رﺳﻴﺪه ﻫﻴﭽﻜﺴﻰ ﻫﻢ ﺻﺪام ﻧﺒﻮد
+
+ﺷﺒﻰ ﻛﻪ ﻏﺼﻪ ﻫﺎم ﻧﺒﻮد ﻛﺴﻰ ﻛﻪ ﻣﺜﻞ ﺗﻮ ﺑﺎﺷﻪ ﺣﺘﻰ ﺗﻮ ﻏﺼﻪ ﻫﺎم ﻧﺒﻮد
+رﺧﺖ ﺗﻨﺖ ﻏﺒﺎره راه و ﺧﺎک ﺗﻤﻮم ﺟﺎده ﻫﺎ ﺧﻮرﺟﻴﻦ اﺳﺒﺖ ﭘﺮه ﻋﺸﻖ
+
+ﭘﺮ از ﺷﻜﻔﺘﻨﻮ ﺻﺪا و ﻗﺪ ﺗﻤﻮم آﺳﻤﻮن ﻗﻠﺐ ﻳﻪ ﻗﻄﺮه ﺷﺒﻨﻤﻰ
+ﻫﻢ ﻧﻔﺲ ﺳﺘﺎره ﻫﺎ اﻫﻞ ﺗﻤﻮم ﻋﺎﻟﻤﻰ ﺑﻴﺎ ﻛﻪ وﻗﺘﺶ رﺳﻴﺪه
+
+ﭼﺸﻤﺎم ﺑﻪ راﻫﺖ ﺧﺸﮏ ﺷﺪه ﺻﺒﺮ ﻫﺰار ﺳﺎﻟﻪ ﻣﻦ دﻳﮕﻪ ﺑﻪ اﺧﺮ رﺳﻴﺪه
+هﻴﭻ ﻛﺴﻰ ﻫﻢ ﺻﺪام ﻧﺒﻮد ﺷﺒﻰ ﻛﻪ ﻗﺼﻪ ﻫﺎم ﻧﺒﻮد ﻛﺴﻰ ﻛﻪ ﻣﺚ ﺗﻮ ﺑﺎﺷﻪ ﺣﺘﻰ ﺗﻮ ﻗﺼﻪ ﻫﺎم ﻧﺒﻮد
+`;
+
+const lyrics3 = `
+ای خالق هر قصه من این منو این تو
+بر ساز دلم زخمه بزن این منو این تو
+هر لحظه جدا از تو برام ماهی و سالی
+با هر نفسم داد میزنم جای تو خالی
+منم عاشق ناز تو کشیدن
+بخاطر تو از همه بریدن تنها تو رو دیدن
+منم عاشق انتظار کشیدن
+صدای پا تو از کوچه شنیدن تنها تو رو دیدن
+
+تو اون ابر بلندی که دستات شفای شوره زاره
+تو اون ساحل نوری که هر موج به تو سجده میاره
+تو فصل سبز عشقی که هرگل بهارو از تو داره
+اگه نوازش تو نباشه گل گلخونه خاره
+منم عاشق ناز تو کشیدن
+بخاطر تو از همه بریدن تنها تو رو دیدن
+منم عاشق انتظار کشیدن
+صدای پا تو از کوچه شنیدن تنها تو رو دیدن
+
+ای خالق هر قصه من این منو این تو
+بر ساز دلم زخمه بزن این منو این تو
+هر لحظه جدا از تو برام ماهی و سالی
+با هر نفسم داد میزنم جای تو خالی
+
+تو آخرین کلامی که شاعر تو هر غزل میاره
+بدون تو خدا هم تو شعراش دیگه غزل نداره
+بمون که شوکت عشق بمونه که قصه گوی عشقی
+نگو که حرمت عشق شکسته تو آبروی عشقی
+منم عاشق ناز تو کشیدن
+بخاطر تو از همه بریدن تنها تو رو دیدن
+منم عاشق انتظار کشیدن
+صدای پا تو از کوچه شنیدن تنها تو رو دیدن
+`;
+
+const lyrics4 = `
+من توی زندگیتم ولی نقشی ندارم اصلا تو نشنیده گرفتی هرچی که شنیدی از من
+بود و نبودم انگار دیگه فرقی برات نداره این همه بی خیالیت داره حرصمو در میاره حرصمو در میاره
+تکلیف عشقمون رو بهم بگو که بدونم باشم نباشم بمونم یا نمونم
+میترسم که بفهمم هیچ عشقی بهم نداری یا اینکه کنج قلبت هیچ جایی واسم نذاری
+آخه دوست دارم من بیچاره مگه دلم تو دنیا جز تو کسیو داره
+دوست دارم من بیچاره مگه دلم تو دنیا جز تو کسیو داره
+دوست دارم ....
+کجای زندگیتم یه رهگذر تو خوابت یه موجود اضافی توی اکثر خاطراتت
+میبینی دارم میمیرم و هیچ کاری باهام نداری
+تو با غرور بیجات داری حرصمو در میاری حرصمو در میاری
+من توی زندگیتم ولی دوست دارم من بیچاره مگه دلم تو دنیا جز تو کسیو داره
+دوست دارم من بیچاره مگه دلم تو دنیا جز تو کسیو داره
+کجای زندگیتم یه رهگذر تو خوابت یه موجود اضافی توی اکثر خاطراتت
+من توی زندگیتم ولی نقشی ندارم اصلا تو نشنیده گرفتی هرچی که شنیدی از من
+بود و نبودم انگار دیگه فرقی برات نداره این همه بی خیالیت داره حرصمو در میاره حرصمو در میاره
+تکلیف عشقمون رو بهم بگو که بدونم باشم نباشم بمونم یا نمونم
+`;
+
+const allLyrics = [
+    lyrics1,
+    lyrics2,
+    lyrics3,
+    lyrics4
+];
+
 const overlay = document.getElementById("musicOverlay");
 const overlayCover = document.getElementById("overlayCover");
 const overlayTitle = document.getElementById("overlayTitle");
+const overlayLyrics = document.getElementById("overlayLyrics");
 const closeOverlay = document.getElementById("closeOverlay");
 
-document.querySelectorAll(".card").forEach(card=>{
+document.querySelectorAll(".card").forEach((card,index)=>{
 
     card.addEventListener("dblclick",()=>{
 
@@ -723,6 +830,9 @@ document.querySelectorAll(".card").forEach(card=>{
         overlayCover.src = cover;
         overlayTitle.textContent = title;
 
+        overlayLyrics.textContent =
+            allLyrics[index] || "Lyrics Not Found";
+
         overlay.classList.add("show");
 
     });
@@ -730,22 +840,19 @@ document.querySelectorAll(".card").forEach(card=>{
 });
 
 closeOverlay.addEventListener("click",()=>{
-
     overlay.classList.remove("show");
-
 });
 
 overlay.addEventListener("click",(e)=>{
-
     if(e.target===overlay){
         overlay.classList.remove("show");
     }
-
 });
 
 </script>
 
 <!-- ===== END OVERLAY ===== -->
+
 <!-- ===== EXTRA CONTROLS UI (VISUAL ONLY) ===== -->
 
 <div class="controls-ui">
