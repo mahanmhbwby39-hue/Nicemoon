@@ -482,3 +482,47 @@ document.querySelectorAll(".play-btn").forEach(btn => {
 </script>
 
 <!-- ===== END MODULE ===== -->
+
+.card{
+  position:relative;
+  overflow:hidden;
+}
+
+/* لایه برق */
+.card::before{
+  content:"";
+  position:absolute;
+  top:-50%;
+  left:-60%;
+  width:60%;
+  height:200%;
+  background:linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,0.15) 40%,
+    rgba(255,255,255,0.45) 50%,
+    rgba(255,255,255,0.15) 60%,
+    transparent 100%
+  );
+  transform:rotate(25deg);
+  animation:shine 4s infinite;
+}
+
+/* حرکت برق */
+@keyframes shine{
+  0%{
+    left:-80%;
+    opacity:0;
+  }
+  20%{
+    opacity:1;
+  }
+  50%{
+    left:120%;
+    opacity:0.8;
+  }
+  100%{
+    left:120%;
+    opacity:0;
+  }
+}
