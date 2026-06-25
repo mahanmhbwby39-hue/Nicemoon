@@ -1165,3 +1165,59 @@ mahiOverlay.onclick = (e) => {
 </script>
 
 <!-- ===== END ===== -->
+<!-- ===== MAHI BUTTON SHINE EFFECT (FINAL) ===== -->
+
+<style>
+
+/* جلوگیری از خراب شدن layout */
+#mahiBtn{
+    position:fixed;
+    overflow:hidden;
+}
+
+/* خط نور مورب شیشه‌ای */
+#mahiBtn::before{
+    content:"";
+    position:absolute;
+    top:-80%;
+    left:-150%;
+    width:35px;
+    height:300%;
+
+    transform:rotate(25deg);
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.10),
+        rgba(255,255,255,0.55),
+        rgba(255,255,255,0.10),
+        transparent
+    );
+
+    animation:mahiShine 4.8s infinite ease-in-out;
+    pointer-events:none;
+}
+
+/* حرکت نور */
+@keyframes mahiShine{
+    0%{
+        left:-150%;
+        opacity:0;
+    }
+    15%{
+        opacity:1;
+    }
+    45%{
+        left:150%;
+        opacity:0.7;
+    }
+    100%{
+        left:150%;
+        opacity:0;
+    }
+}
+
+</style>
+
+<!-- ===== END SHINE ===== -->
