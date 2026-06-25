@@ -548,3 +548,259 @@ document.querySelectorAll(".play-btn").forEach(btn => {
 }
 
 </style>
+<!-- ===== FULL SCREEN CONTROL OVERLAY ===== -->
+
+<div id="musicOverlay">
+    <div class="overlay-player">
+
+        <button id="closeOverlay">✕</button>
+
+        <div class="ring ring1"></div>
+        <div class="ring ring2"></div>
+
+        <img id="overlayCover" src="" alt="cover">
+
+        <h2 id="overlayTitle">Now Playing</h2>
+
+        <div class="overlayHint">
+            Double click any music card to open
+        </div>
+
+    </div>
+</div>
+
+<style>
+
+#musicOverlay{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(25px);
+
+    z-index:999999;
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:.45s ease;
+}
+
+#musicOverlay.show{
+    opacity:1;
+    visibility:visible;
+}
+
+.overlay-player{
+    position:relative;
+    text-align:center;
+    color:#fff;
+}
+
+#overlayCover{
+    width:260px;
+    height:260px;
+    border-radius:50%;
+    object-fit:cover;
+
+    box-shadow:
+    0 0 40px rgba(255,255,255,.15),
+    0 0 80px rgba(255,120,160,.25);
+
+    animation:overlayRotate 18s linear infinite;
+}
+
+@keyframes overlayRotate{
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+#overlayTitle{
+    margin-top:24px;
+    font-size:26px;
+    font-weight:700;
+}
+
+.overlayHint{
+    margin-top:10px;
+    opacity:.65;
+    font-size:13px;
+}
+
+#closeOverlay{
+    position:absolute;
+    top:-70px;
+    right:-20px;
+
+    width:46px;
+    height:46px;
+
+    border:none;
+    border-radius:50%;
+
+    cursor:pointer;
+
+    color:white;
+    font-size:18px;
+
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(10px);
+
+    transition:.25s;
+}
+
+#closeOverlay:hover{
+    transform:scale(1.1);
+}
+
+.ring{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    pointer-events:none;
+}
+
+.ring1{
+    width:320px;
+    height:320px;
+    border:1px solid rgba(255,255,255,.18);
+    animation:ringPulse 4s infinite;
+}
+
+.ring2{
+    width:380px;
+    height:380px;
+    border:1px solid rgba(255,255,255,.10);
+    animation:ringPulse 4s infinite 1.5s;
+}
+
+@keyframes ringPulse{
+
+    0%{
+        transform:translate(-50%,-50%) scale(0.9);
+        opacity:0;
+    }
+
+    30%{
+        opacity:.8;
+    }
+
+    100%{
+        transform:translate(-50%,-50%) scale(1.25);
+        opacity:0;
+    }
+
+}
+
+</style>
+
+<script>
+
+const overlay = document.getElementById("musicOverlay");
+const overlayCover = document.getElementById("overlayCover");
+const overlayTitle = document.getElementById("overlayTitle");
+const closeOverlay = document.getElementById("closeOverlay");
+
+document.querySelectorAll(".card").forEach(card=>{
+
+    card.addEventListener("dblclick",()=>{
+
+        const cover =
+            card.querySelector(".cover").src;
+
+        const title =
+            card.querySelector(".song-title").innerText;
+
+        overlayCover.src = cover;
+        overlayTitle.textContent = title;
+
+        overlay.classList.add("show");
+
+    });
+
+});
+
+closeOverlay.addEventListener("click",()=>{
+
+    overlay.classList.remove("show");
+
+});
+
+overlay.addEventListener("click",(e)=>{
+
+    if(e.target===overlay){
+        overlay.classList.remove("show");
+    }
+
+});
+
+</script>
+
+<!-- ===== END OVERLAY ===== -->
+<!-- ===== EXTRA CONTROLS UI (VISUAL ONLY) ===== -->
+
+<div class="controls-ui">
+
+    <button class="ctrl-btn">⏮</button>
+
+    <button class="ctrl-btn play">
+        ▶ / ❚❚
+    </button>
+
+    <button class="ctrl-btn">⏭</button>
+
+</div>
+
+<style>
+
+.controls-ui{
+    margin-top:25px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:18px;
+}
+
+.ctrl-btn{
+    width:52px;
+    height:52px;
+
+    border:none;
+    border-radius:50%;
+
+    cursor:pointer;
+
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(10px);
+
+    color:white;
+    font-size:18px;
+
+    transition:.25s;
+}
+
+.ctrl-btn:hover{
+    transform:scale(1.1);
+    background:rgba(255,255,255,0.2);
+}
+
+.ctrl-btn.play{
+    width:64px;
+    height:64px;
+    font-size:16px;
+
+    background:rgba(255,255,255,0.18);
+}
+
+</style>
+
+<!-- ===== END CONTROLS UI ===== -->
