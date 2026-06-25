@@ -313,7 +313,7 @@ document.querySelectorAll(".play-btn").forEach(btn => {
 
 </body>
 </html>
-<!-- ===== Cloud Intro + Spark FX MODULE ===== -->
+<!-- ===== Cloud Intro + Spark FX MODULE (FIXED TRANSPARENT) ===== -->
 
 <div id="cloudburst-root">
   <div class="clouds" id="clouds"></div>
@@ -324,10 +324,10 @@ document.querySelectorAll(".play-btn").forEach(btn => {
 #cloudburst-root{
   position:fixed;
   inset:0;
-  z-index:9999;
+  z-index:0; /* مهم: پشت UI */
   overflow:hidden;
   pointer-events:none;
-  background:#05060a;
+  background:transparent; /* 👈 حذف بک‌گراند */
 }
 
 /* Clouds */
@@ -338,7 +338,7 @@ document.querySelectorAll(".play-btn").forEach(btn => {
   background:#fff;
   border-radius:100px;
   filter:blur(1px);
-  opacity:0.9;
+  opacity:0.6; /* 👈 ملایم‌تر برای طبیعی شدن */
 }
 
 #cloudburst-root .cloud::before,
@@ -389,6 +389,11 @@ document.querySelectorAll(".play-btn").forEach(btn => {
 #cloudburst-root canvas{
   position:absolute;
   inset:0;
+}
+
+/* optional: softer spark look */
+#cloudburst-root{
+  mix-blend-mode: screen;
 }
 </style>
 
