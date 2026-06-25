@@ -483,46 +483,68 @@ document.querySelectorAll(".play-btn").forEach(btn => {
 
 <!-- ===== END MODULE ===== -->
 
+<style>
+
+/* ===== Premium Shine Effect ===== */
+
 .card{
-  position:relative;
-  overflow:hidden;
+    position:relative;
+    overflow:hidden;
 }
 
-/* لایه برق */
 .card::before{
-  content:"";
-  position:absolute;
-  top:-50%;
-  left:-60%;
-  width:60%;
-  height:200%;
-  background:linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,0.15) 40%,
-    rgba(255,255,255,0.45) 50%,
-    rgba(255,255,255,0.15) 60%,
-    transparent 100%
-  );
-  transform:rotate(25deg);
-  animation:shine 4s infinite;
+    content:"";
+    position:absolute;
+    top:-50%;
+    left:-120%;
+    width:70px;
+    height:250%;
+    transform:rotate(25deg);
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.05),
+        rgba(255,255,255,0.45),
+        rgba(255,255,255,0.05),
+        transparent
+    );
+
+    animation:cardShine 5s infinite ease-in-out;
+    pointer-events:none;
 }
 
-/* حرکت برق */
-@keyframes shine{
-  0%{
-    left:-80%;
-    opacity:0;
-  }
-  20%{
-    opacity:1;
-  }
-  50%{
-    left:120%;
-    opacity:0.8;
-  }
-  100%{
-    left:120%;
-    opacity:0;
-  }
+.card:nth-child(2)::before{
+    animation-delay:1s;
 }
+
+.card:nth-child(3)::before{
+    animation-delay:2s;
+}
+
+.card:nth-child(4)::before{
+    animation-delay:3s;
+}
+
+@keyframes cardShine{
+    0%{
+        left:-120%;
+        opacity:0;
+    }
+
+    15%{
+        opacity:1;
+    }
+
+    40%{
+        left:140%;
+        opacity:0.9;
+    }
+
+    100%{
+        left:140%;
+        opacity:0;
+    }
+}
+
+</style>
