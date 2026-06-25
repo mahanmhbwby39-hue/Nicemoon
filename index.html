@@ -911,3 +911,257 @@ overlay.addEventListener("click",(e)=>{
 </style>
 
 <!-- ===== END CONTROLS UI ===== -->
+<!-- ===== MAHI SECRET LETTER + MOON FX ===== -->
+
+<div id="mahiBtn">
+    <img src="YOUR_ICON.png" alt="">
+</div>
+
+<!-- MOON FX -->
+<div id="moonFx"></div>
+
+<div id="mahiOverlay">
+
+    <div id="mahiCard">
+
+        <button id="closeMahi">✕</button>
+
+        <img class="mahiPhoto" src="YOUR_PHOTO.jpg" alt="">
+
+        <div class="mahiText">
+
+            <h2>برای ماهی 🌙</h2>
+
+            <p>
+            بعضی آدم‌ها شبیه ماهن؛
+            <br>
+            لازم نیست همیشه کنار آدم باشن تا نورشون دیده بشه.
+            <br><br>
+
+            این سایت، فقط یه هدیه کوچیکه؛
+            <br>
+            چند آهنگ، چند خاطره و کلی حس که توی کلمه‌ها جا نمی‌شدن.
+            <br><br>
+
+            روز دختر مبارک ❤️✨
+            <br><br>
+
+            از طرف دبه دوغ🙂
+            <br><br>
+
+            <img class="tinyLovePic" src="YOUR_SMALL_IMAGE.png" alt="">
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+/* ===== BUTTON ===== */
+#mahiBtn{
+    position:fixed;
+    bottom:18px;
+    left:18px;
+
+    width:44px;
+    height:44px;
+
+    border-radius:50%;
+    overflow:hidden;
+    cursor:pointer;
+
+    z-index:99999;
+
+    background:rgba(255,255,255,.10);
+    backdrop-filter:blur(12px);
+
+    border:1px solid rgba(255,255,255,.18);
+
+    box-shadow:
+    0 0 15px rgba(255,255,255,.12),
+    inset 0 0 8px rgba(255,255,255,.06);
+
+    animation:mahiFloat 4s ease-in-out infinite;
+}
+
+#mahiBtn img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+@keyframes mahiFloat{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-4px); }
+}
+
+/* ===== MOON FX (NEW) ===== */
+#moonFx{
+    position:fixed;
+    bottom:30px;
+    left:30px;
+
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+    pointer-events:none;
+
+    z-index:99998;
+}
+
+#moonFx.active{
+    animation:moonBurst .7s ease-out forwards;
+}
+
+@keyframes moonBurst{
+    0%{
+        transform:scale(1);
+        opacity:0.8;
+        box-shadow:0 0 0 0 rgba(255,255,255,.6);
+    }
+    100%{
+        transform:scale(20);
+        opacity:0;
+        box-shadow:0 0 120px 60px rgba(255,255,255,0);
+    }
+}
+
+/* ===== OVERLAY ===== */
+#mahiOverlay{
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+    backdrop-filter:blur(8px);
+
+    display:none;
+    justify-content:center;
+    align-items:center;
+
+    z-index:999999;
+}
+
+#mahiOverlay.active{
+    display:flex;
+    animation:fadeMahi .35s ease;
+}
+
+@keyframes fadeMahi{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+/* ===== CARD ===== */
+#mahiCard{
+    width:min(92%,650px);
+    max-height:90vh;
+    overflow-y:auto;
+
+    border-radius:30px;
+
+    background:linear-gradient(
+        135deg,
+        rgba(255,255,255,.22),
+        rgba(255,255,255,.10)
+    );
+
+    backdrop-filter:blur(22px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    box-shadow:0 0 50px rgba(255,255,255,.08);
+
+    text-align:center;
+    padding:20px;
+}
+
+.mahiPhoto{
+    width:100%;
+    height:240px;
+    object-fit:cover;
+
+    border-radius:22px;
+    margin-bottom:20px;
+}
+
+.mahiText h2{
+    color:white;
+    font-size:28px;
+    margin-bottom:18px;
+}
+
+.mahiText p{
+    color:rgba(255,255,255,.92);
+    font-size:17px;
+    line-height:2.1;
+}
+
+#closeMahi{
+    width:40px;
+    height:40px;
+
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+
+    background:rgba(255,255,255,.12);
+    color:white;
+    font-size:18px;
+
+    float:left;
+    margin-bottom:10px;
+}
+
+.tinyLovePic{
+    width:50px;
+    height:50px;
+    object-fit:cover;
+
+    border-radius:50%;
+
+    margin-top:8px;
+
+    border:2px solid rgba(255,255,255,.25);
+
+    box-shadow:0 0 12px rgba(255,255,255,.12);
+}
+
+</style>
+
+<script>
+
+const mahiBtn = document.getElementById("mahiBtn");
+const mahiOverlay = document.getElementById("mahiOverlay");
+const closeMahi = document.getElementById("closeMahi");
+const moonFx = document.getElementById("moonFx");
+
+mahiBtn.onclick = () => {
+
+    // FX first
+    moonFx.classList.add("active");
+
+    setTimeout(() => {
+        moonFx.classList.remove("active");
+        mahiOverlay.classList.add("active");
+    }, 500);
+
+};
+
+closeMahi.onclick = () => {
+    mahiOverlay.classList.remove("active");
+};
+
+mahiOverlay.onclick = (e) => {
+    if(e.target === mahiOverlay){
+        mahiOverlay.classList.remove("active");
+    }
+};
+
+</script>
+
+<!-- ===== END ===== -->
