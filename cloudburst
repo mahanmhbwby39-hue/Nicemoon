@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Intro + Spark FX</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  overflow:hidden;
+  background:#05060a;
+  height:100vh;
+  font-family:sans-serif;
+}
+
+/* ===== Clouds Container ===== */
+.clouds{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+}
+
+/* ===== Cloud ===== */
+.cloud{
+  position:absolute;
+  width:220px;
+  height:130px;
+  background:#fff;
+  border-radius:100px;
+  filter:blur(1px);
+  opacity:0.9;
+  transform:translateX(0);
+}
+
+/* cloud bumps */
+.cloud::before,
+.cloud::after{
+  content:"";
+  position:absolute;
+  background:#fff;
+  border-radius:50%;
+}
+
+.cloud::before{
+  width:120px;
+  height:120px;
+  top:-40px;
+  left:25px;
+}
+
+.cloud::after{
+  width:150px;
+  height:150px;
+  top:-60px;
+  left:90px;
+}
+
+/* ===== Exit Animations ===== */
+.cloud.left{
+  animation:moveLeft 2.2s ease-in-out forwards;
+}
+
+.cloud.right{
+  animation:moveRight 2.2s ease-in-out forwards;
+}
+
+@keyframes moveLeft{
+  to{
+    transform:translateX(-600px);
+    opacity:0;
+  }
+}
+
+@keyframes moveRight{
+  to{
+    transform:translateX(600px);
+    opacity:0;
+  }
+}
+
+/* ===== Spark Canvas ===== */
+canvas{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="clouds" id="clouds"></div>
+<canvas id="fx"></canvas>
+
+<script>
+const cloudContainer = document.getElementById("clouds");
+
+/* ===== Create MANY clouds ===== */
+const cloudCount = 25; // ← تعداد ابرها
+
+for(let i=0;i<cloudCount;i++){
+  const cloud = document.createElement("div");
+  cloud.className = "cloud";
+
+  // پخش تصادفی روی کل صفحه
+  cloud.style.top = Math.random()*100 + "vh";
+  cloud.style.left = Math.random()*100 + "vw";
+
+  // کمی تغییر سایز برای طبیعی شدن
+  const scale = 0.6 + Math.random()*1.4;
+  cloud.style.transform = `scale(${scale})`;
+
+  // انتخاب جهت خروج
+  if(i % 2 === 0){
+    cloud.classList.add("left");
+  }else{
+    cloud.classList.add("right");
+  }
+
+  // تاخیر برای طبیعی شدن حرکت
+  cloud.style.animationDelay = (Math.random()*1.5) + "s";
+
+  cloudContainer.appendChild(cloud);
+}
+
+/* ===== Spark Canvas ===== */
+const canvas = document.getElementById("fx");
+const ctx = canvas.getContext("2d");
+
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+window.addEventListener("resize", ()=>{
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+});
+
+let particles = [];
+
+class Particle{
+  constructor(x,y){
+    this.x=x;
+    this.y=y;
+    this.size=Math.random()*3+1;
+    this.speedX=(Math.random()-0.5)*6;
+    this.speedY=(Math.random()-0.5)*6;
+    this.life=60;
+  }
+
+  update(){
+    this.x+=this.speedX;
+    this.y+=this.speedY;
+    this.life--;
+  }
+
+  draw(){
+    ctx.fillStyle="white";
+    ctx.shadowColor="white";
+    ctx.shadowBlur=10;
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+    ctx.fill();
+  }
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  particles.forEach((p,i)=>{
+    p.update();
+    p.draw();
+    if(p.life<=0) particles.splice(i,1);
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("click",(e)=>{
+  for(let i=0;i<25;i++){
+    particles.push(new Particle(e.clientX,e.clientY));
+  }
+});
+</script>
+
+</body>
+</html>
